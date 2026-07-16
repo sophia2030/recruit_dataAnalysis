@@ -194,7 +194,7 @@ recruit_dataAnalysis/
 ├── README.md                    # 项目说明文档
 ├── requirements.txt             # Python 依赖
 ├── dashboard.py                 # Streamlit 交互式看板
-├── crawler.py                   # 多公司招聘数据爬虫
+├── 爬虫&数据分析.ipynb                   # 多公司招聘数据爬虫
 ├── data/                        # 数据存储目录
 │   ├── recruits_*.json          # 原始爬取数据
 │   └── recruits_*_cleaned.csv   # 清洗后的数据
