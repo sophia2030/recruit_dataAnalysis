@@ -1,0 +1,1 @@
+"D:\anaconda\python.exe" -m streamlit run dashboard.py
