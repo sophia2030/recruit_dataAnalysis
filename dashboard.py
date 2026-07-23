@@ -7,6 +7,52 @@ import re
 from collections import Counter
 import os
 
+import streamlit as st
+import logging
+from datetime import datetime
+import os
+
+# ========== 1. 配置日志记录器 ==========
+LOG_FILE = "visitor.log"
+
+# 如果文件不存在则创建
+if not os.path.exists(LOG_FILE):
+    open(LOG_FILE, 'w').close()
+
+logging.basicConfig(
+    filename=LOG_FILE,
+    level=logging.INFO,
+    format='%(asctime)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+
+# ========== 2. 获取公网 IP 的函数 ==========
+def get_client_ip():
+    """
+    获取访问者的公网 IP
+    """
+    try:
+        # 适用于 Streamlit 1.33.0 及以上版本
+        ip = st.context.ip_address
+        if ip:
+            return ip
+    except AttributeError:
+        pass
+    
+    # 针对旧版本 Streamlit 或本地调试的备用方案
+    try:
+        from streamlit.runtime.scriptrunner import get_script_run_ctx
+        from streamlit.runtime import get_instance
+        ctx = get_script_run_ctx()
+        if ctx:
+            session_info = get_instance().get_client(ctx.session_id)
+            if session_info:
+                return session_info.request.remote_ip
+    except Exception:
+        pass
+    
+    return "unknown (local or error)"
+
 # ============ 能力维度映射（用于雷达图） ============
 DIMENSION_MAP = {
     # 技术硬实力
